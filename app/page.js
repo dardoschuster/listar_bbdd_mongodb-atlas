@@ -12,7 +12,7 @@ export default async function Home() {
 
   return (
     <main className="container mx-auto">
-      <h1 className="font-bold text-2xl text-center">Personas</h1>
+      <h1 className="font-bold text-2xl text-center">Listado de Personal</h1>
       <section className="grid grid-cols-1 gap-4 justify-items-center sm:grid-cols-2 lg:grid-cols-4">
         {personas.map((persona, index) => (
           <article key={persona.id}>
