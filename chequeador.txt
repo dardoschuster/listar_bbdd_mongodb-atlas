@@ -1,0 +1,77 @@
+Me dice si hay problemas con el deploy en vercel
+npm i -g vercel
+vercel --prod
+
+Fuerza un deploy si no se estan haciendo
+vercel --prod --force
+
+Si da error puede ser una variable en el next.config.js
+despues de arreglarlo como esta este borrar cache con
+
+# Borra cachés
+rm -r -fo .next
+rm -r -fo .vercel
+
+# Intenta build local
+npm run build
+
+# Si funciona, intenta deploy
+vercel --prod --force
+
+Posible error conocido en Next.js 15
+ Build Completed in .vercel\output [10s]
+Error: ENOENT: no such file or directory, stat '/vercel/path0/.vercel/output/functions/_global-error.segments/__PAGE__.segment.rsc.func'
+
+Solución rápida
+1. Borra la carpeta .vercel y .next localmente
+Estas carpetas se están subiendo a Vercel y están causando conflicto:
+
+# En tu terminal (Windows PowerShell)
+rm -r -fo .vercel
+rm -r -fo .next
+O en CMD:
+
+rmdir /s /q .vercel
+rmdir /s /q .next
+
+2. Asegúrate de que .vercel esté en .gitignore
+Revisa tu archivo .gitignore y añade:
+
+.vercel
+.next
+node_modules
+Si ya estaba en .gitignore pero Git lo subió igual, haz:
+
+
+git rm -r --cached .vercel
+git rm -r --cached .next
+git commit -m "Remove .vercel and .next from git cache"
+git push origin main
+
+3. Limpia el caché de build de Vercel
+En el dashboard de Vercel:
+
+Ve a tu proyecto.
+
+Haz clic en Settings → Build & Development Settings.
+
+Activa Force Build Cache Miss o simplemente haz un Redeploy con el caché limpio:
+
+Ve a Deployments.
+
+Haz clic en los tres puntos del último deploy fallido.
+
+Selecciona Redeploy y marca Use Build Cache → desmarcado.
+
+4. Verifica tu estructura de rutas
+Este error a veces pasa cuando hay:
+
+Dos archivos creando la misma ruta (ej: page.tsx y route.ts en el mismo segmento).
+
+Un archivo error.tsx o global-error.tsx mal configurado.
+
+Revisa:
+
+Que no tengas duplicados de rutas en app/.
+
+Si tienes global-error.tsx, asegúrate de que esté en app/global-error.tsx (no en subcarpetas).
