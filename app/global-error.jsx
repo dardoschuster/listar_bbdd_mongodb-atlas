@@ -1,11 +1,14 @@
 "use client";
 
-export default function GlobalError({ error, reset }) {
+export default function GlobalError({ error, retry }) {
   return (
-    <html>
+    <html lang="es">
       <body>
-        <h2>Something went wrong!</h2>
-        <button onClick={() => reset()}>Try again</button>
+        <div style={{ padding: "2rem", textAlign: "center" }}>
+          <h2>Algo salió mal</h2>
+          <p>{error.message || "Error desconocido"}</p>
+          <button onClick={() => retry()}>Reintentar</button>
+        </div>
       </body>
     </html>
   );
