@@ -1,8 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    staticGenerationRetryCount: 1,
-  },
-};
+const nextConfig = {};
 
 export default nextConfig;
